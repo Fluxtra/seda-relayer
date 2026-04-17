@@ -19,7 +19,6 @@
     "@openzeppelin/contracts-upgradeable": "^5.1.0",
     "@openzeppelin/hardhat-upgrades": "^3.6.0",
     "@types/node": "^20.17.0",
-    "bech32": "^2.0.0",
     "hardhat": "^2.22.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0"
