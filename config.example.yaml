@@ -1,0 +1,62 @@
+sedaFast:
+  apiUrl: "https://fast-api.mainnet.seda.xyz"
+  # Set SEDA_FAST_API_KEY env var or put key here
+  apiKey: ""
+
+feeds:
+  - symbol: "HYPE/USD"
+    execProgramId: "cefe600578edb2888216419cc79f2c883dd12dcc8486be246a8125023848fb2c"
+    execInputs:
+      pyth_id: "4279e31cc369bbcc2faf022b382b080e32a8e689ff20fbc530d2a603eb6cd98b"
+      scale: 18
+
+  - symbol: "MANTRA/USD"
+    execProgramId: "6dea2bb3d6379fee7c0d345b1a114b1475a3673f46b80643ef5f7fd2e6293c1f"
+    execInputs:
+      binance_symbol: "MANTRAUSDT"
+      bybit_symbol: "MANTRAUSDT"
+      gate_io_symbol: "MANTRA_USDT"
+
+  - symbol: "HYPE/MANTRA"
+    execProgramId: "3e1b8cd95c5b5fa3f0eab64d7e1125864ccbe6f1e848d7fc9607e0b00aa07797"
+    execInputs:
+      binance_symbol: "MANTRAUSDT"
+      bybit_symbol: "MANTRAUSDT"
+      gate_io_symbol: "MANTRA_USDT"
+      quote_assets:
+        - id: "0x2b89b9dc8fdf9f34709a5b106b472f0f39bb6ca9ce04b0fd7f2e971688e2e53b"
+        - id: "0x4279e31cc369bbcc2faf022b382b080e32a8e689ff20fbc530d2a603eb6cd98b"
+      invert: true
+
+  - symbol: "USDC/USD"
+    execProgramId: "cefe600578edb2888216419cc79f2c883dd12dcc8486be246a8125023848fb2c"
+    execInputs:
+      pyth_id: "0xeaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a"
+      scale: 18
+
+  - symbol: "USDT/USD"
+    execProgramId: "cefe600578edb2888216419cc79f2c883dd12dcc8486be246a8125023848fb2c"
+    execInputs:
+      pyth_id: "0x2b89b9dc8fdf9f34709a5b106b472f0f39bb6ca9ce04b0fd7f2e971688e2e53b"
+      scale: 18
+
+  - symbol: "stMANTRA/MANTRA"
+    execProgramId: "v1.evm-vault.mantra"
+    execInputs:
+      vaultType: "erc4626Ratio"
+      contract: "0x4131a80b67be287627766b858c3c6d7f9e900324"
+
+  - symbol: "wmantraUSD-Yld/USD"
+    execProgramId: "v1.evm-vault.mantra"
+    execInputs:
+      vaultType: "accountantRate"
+      contract: "0xcB6C931AC97Da626684B44af070465938eAE20b6"
+      scale: 18
+
+evm:
+  rpcUrl: "https://evm.mantrachain.io"
+  chainId: 5888
+  priceStoreAddress: "0x..."
+
+updateIntervalMs: 10000
+maxGasPriceGwei: 50

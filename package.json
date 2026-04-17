@@ -1,0 +1,27 @@
+{
+  "name": "seda-relayer",
+  "version": "0.1.0",
+  "description": "Relayer for pushing SEDA oracle data on-chain to Mantra chain",
+
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dry-run": "DRY_RUN=true tsx src/index.ts",
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.ts",
+    "test": "hardhat test"
+  },
+  "dependencies": {
+    "ethers": "^6.15.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts-upgradeable": "^5.1.0",
+    "@openzeppelin/contracts": "^5.1.0",
+    "@openzeppelin/hardhat-upgrades": "^3.6.0",
+    "@types/node": "^20.17.0",
+    "hardhat": "^2.22.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
