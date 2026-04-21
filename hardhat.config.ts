@@ -34,6 +34,21 @@ const config: HardhatUserConfig = {
       ...(DEPLOYER_PRIVATE_KEY ? { accounts: [DEPLOYER_PRIVATE_KEY] } : {}),
     },
   },
+  etherscan: {
+    apiKey: {
+      mantra: "empty",
+    },
+    customChains: [
+      {
+        network: "mantra",
+        chainId: 5888,
+        urls: {
+          apiURL: "https://blockscout.mantrascan.io/api",
+          browserURL: "https://blockscout.mantrascan.io",
+        },
+      },
+    ],
+  },
 };
 
 export default config;
