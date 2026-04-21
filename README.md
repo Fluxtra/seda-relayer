@@ -83,23 +83,44 @@ npm start
 
 ## Contract
 
-`SedaPriceStore` is a UUPS upgradeable contract that stores `(price, timestamp, roundId)` per feed.
+**Deployed**: `0xa249A4FfaE48f0f404Ab262eB04b6068F4efECCa` (UUPS proxy on Mantra chain EVM)
+**Implementation**: `0xe3674d1c43fe249d468c362f663a01bcc1c3c318`
+**Verified**: [Blockscout](https://blockscout.mantrascan.io/address/0xa249A4FfaE48f0f404Ab262eB04b6068F4efECCa)
+
+`SedaPriceStore` is a UUPS upgradeable contract that stores `(price, timestamp, roundId)` per feed. All prices use **18 decimals**.
+
+### Feed IDs
+
+Each feed is identified by `keccak256(symbol)`. These are the on-chain feed IDs:
+
+| Symbol | feedId |
+|---|---|
+| HYPE/USD | `0xc5f3d8462b1cf323f17cd65568a8349b94a47e414db695620043be926eb5fbfd` |
+| MANTRA/USD | `0xcd0f31baa49ff3fbccfe0ece74135c3a6a9cb32ae57fd36272ad812bb58a0cf3` |
+| HYPE/MANTRA | `0xf07f96b99794a6dc491a1eb3cc06f4effda805e0ee6ec8102205a3f33ab48551` |
+| USDC/USD | `0xff064b881a0c0fff844177f881a313ff894bfc6093d33b5514e34d7faa41b7ef` |
+| USDT/USD | `0x91879a0c0be4e43cacda1599ac414205651f4a62b614b6be9e5318a182c33eb0` |
+| stMANTRA/MANTRA | `0x9383700fa8a8ef44ad75bc49dfafac6b028d32c54c9805ae6db6de00164f344c` |
+| wmantraUSD-Yld/USD | `0xd12021a04f97a016a1894eb4123056141bbabc0ffde255b5c6371cde11a4018e` |
 
 ### Reading Prices
 
+There are two read methods — same data, different shape:
+
+**`getLatestPrice(feedId)`** — simple, returns 3 values:
 ```solidity
-// feedId = keccak256("HYPE/USD")
 bytes32 feedId = keccak256(abi.encodePacked("HYPE/USD"));
-
-// Get latest price
 (int256 price, uint256 timestamp, uint80 roundId) = priceStore.getLatestPrice(feedId);
-
-// AggregatorV3-compatible
-(uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)
-    = priceStore.latestRoundData(feedId);
 ```
 
-All prices use 18 decimals.
+**`latestRoundData(feedId)`** — AggregatorV3Interface-compatible (Chainlink standard), returns 5 values:
+```solidity
+(uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)
+    = priceStore.latestRoundData(feedId);
+// startedAt == updatedAt == timestamp; answeredInRound == roundId
+```
+
+Use `latestRoundData` when integrating with DeFi protocols that expect Chainlink-style feeds. Use `getLatestPrice` for simpler use cases.
 
 ### Admin Functions
 
