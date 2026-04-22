@@ -2,14 +2,17 @@
   "name": "seda-relayer",
   "version": "0.1.0",
   "description": "Relayer for pushing SEDA oracle data on-chain to Mantra chain",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "tsx src/index.ts",
     "dry-run": "DRY_RUN=true tsx src/index.ts",
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.ts",
-    "test": "hardhat test test/SedaPriceStore.test.ts test/integration/round-trip.test.ts",
+    "test": "hardhat test && vitest run",
     "test:unit": "vitest run",
-    "test:all": "hardhat test test/SedaPriceStore.test.ts test/integration/round-trip.test.ts && vitest run"
+    "test:all": "npm test"
   },
   "dependencies": {
     "ethers": "^6.15.0",
@@ -24,6 +27,6 @@
     "hardhat": "^2.22.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
-    "vitest": "^4.1.5"
+    "vitest": "^1.6.1"
   }
 }

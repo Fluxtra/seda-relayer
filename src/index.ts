@@ -2,7 +2,6 @@ import { loadConfig } from "./config.js";
 import { SedaFastClient } from "./seda-fast-client.js";
 import { Submitter, feedIdFromSymbol } from "./submitter.js";
 import { summarizeError, filterNewPrices } from "./utils.js";
-import type { PriceBatch } from "./submitter.js";
 
 const DRY_RUN = process.env.DRY_RUN === "true";
 
