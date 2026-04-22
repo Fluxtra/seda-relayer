@@ -50,7 +50,8 @@ export class SedaFastClient {
  * The result field in dataResult is hex-encoded JSON: {"price":"<bigint_string>","timestamp":"<ISO8601>"}
  * The response also has a convenience `result` field with the same data already decoded.
  */
-function decodeResult(response: SedaFastResponse): OraclePrice {
+/** @internal */
+export function decodeResult(response: SedaFastResponse): OraclePrice {
   // Use the convenience `result` field (already decoded JSON)
   const { price, timestamp } = response.data.result;
 

@@ -10,6 +10,12 @@
     "rootDir": ".",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "hardhat.config.ts", "scripts/**/*"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "moduleResolution": "node"
+    }
+  },
+  "include": ["src/**/*", "hardhat.config.ts", "scripts/**/*", "test/**/*"],
   "exclude": ["node_modules", "artifacts", "cache"]
 }

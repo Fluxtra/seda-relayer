@@ -1,25 +1,13 @@
 import { loadConfig } from "./config.js";
 import { SedaFastClient } from "./seda-fast-client.js";
 import { Submitter, feedIdFromSymbol } from "./submitter.js";
+import { summarizeError, filterNewPrices } from "./utils.js";
 import type { PriceBatch } from "./submitter.js";
 
 const DRY_RUN = process.env.DRY_RUN === "true";
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function summarizeError(msg: string): string {
-  const codeMatch = msg.match(/code=(\w+)/);
-  const actionMatch = msg.match(/action="(\w+)"/);
-  const reasonMatch = msg.match(/reason=(".*?"|\w+)/);
-  if (codeMatch) {
-    const code = codeMatch[1];
-    const action = actionMatch?.[1] ?? "unknown";
-    const reason = reasonMatch?.[1] ?? "null";
-    return `${code} during ${action} (reason=${reason})`;
-  }
-  return msg.length > 200 ? msg.slice(0, 200) + "…" : msg;
 }
 
 async function main() {
@@ -69,29 +57,23 @@ async function main() {
     );
 
     // Collect payloads with new timestamps
-    const batch: PriceBatch[] = [];
+    const batch = filterNewPrices(fetchResults, lastTimestamps, feedIds);
 
+    // Log skipped feeds
     for (const r of fetchResults) {
       if (r.status === "rejected") {
         const msg =
           r.reason instanceof Error ? r.reason.message : String(r.reason);
         console.error(`  fetch error: ${summarizeError(msg)}`);
-        continue;
+      } else {
+        const { feed, tsUnix } = r.value;
+        const lastTs = lastTimestamps.get(feed.symbol) || 0;
+        if (tsUnix <= lastTs) {
+          console.log(
+            `  ${feed.symbol}: Skipping, timestamp ${tsUnix} <= last ${lastTs}`
+          );
+        }
       }
-      const { feed, price, tsUnix } = r.value;
-      const lastTs = lastTimestamps.get(feed.symbol) || 0;
-      if (tsUnix <= lastTs) {
-        console.log(
-          `  ${feed.symbol}: Skipping, timestamp ${tsUnix} <= last ${lastTs}`
-        );
-        continue;
-      }
-      batch.push({
-        feedId: feedIds.get(feed.symbol)!,
-        price: price.price,
-        timestamp: tsUnix,
-        symbol: feed.symbol,
-      });
     }
 
     if (batch.length === 0) {

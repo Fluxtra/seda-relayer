@@ -7,7 +7,9 @@
     "dry-run": "DRY_RUN=true tsx src/index.ts",
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.ts",
-    "test": "hardhat test"
+    "test": "hardhat test test/SedaPriceStore.test.ts test/integration/round-trip.test.ts",
+    "test:unit": "vitest run",
+    "test:all": "hardhat test test/SedaPriceStore.test.ts test/integration/round-trip.test.ts && vitest run"
   },
   "dependencies": {
     "ethers": "^6.15.0",
@@ -21,6 +23,7 @@
     "@types/node": "^20.17.0",
     "hardhat": "^2.22.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.5"
   }
 }
