@@ -58,5 +58,5 @@ evm:
   chainId: 5888
   priceStoreAddress: "0x..."
 
-updateIntervalMs: 10000
+updateIntervalMs: 60000
 maxGasPriceGwei: 50
