@@ -27,6 +27,9 @@ const config: HardhatUserConfig = {
       optimizer: { enabled: true, runs: 200 },
     },
   },
+  paths: {
+    tests: "test/hardhat",
+  },
   networks: {
     mantra: {
       url: "https://evm.mantrachain.io",

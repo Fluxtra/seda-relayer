@@ -55,6 +55,24 @@ npm run dry-run
 npm start
 ```
 
+## Testing
+
+```bash
+# Full suite: Solidity + integration + TypeScript unit tests
+npm test
+
+# Hardhat contract + integration tests only
+npx hardhat test
+
+# TypeScript unit tests only
+npm run test:unit
+
+# Explicit alias for the full suite
+npm run test:all
+```
+
+Hardhat tests live under `test/hardhat/`, while Vitest unit tests live under `test/unit/`, so each runner only picks up the files meant for it.
+
 ## Configuration
 
 ### config.yaml
